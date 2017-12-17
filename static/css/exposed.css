@@ -1,0 +1,37 @@
+@font-face {
+    font-family: "My Custom Font";
+    src: url('/static/font/fa-solid-900.ttf') format("truetype");
+}
+
+#reasons-list-tile div {
+    float: left;
+}
+
+.reason-vote-container {
+    width: 35px;
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+    .reason-count {
+        color: black;
+        padding-right: 5px;
+        border-radius: 5px;
+        font-size: 11pt;
+        font-weight: 600;
+        display: inline-block;
+        text-align: right;
+        float: left;
+    }
+}
+
+#reasons-list-tile input[type="checkbox"]+span:before {
+    content: "\f0d8";
+    font-family: FontAwesome;
+    font-size: 26px;
+    padding: 1px 3px 0px 3px;
+    border-radius: 4px;
+    display: inline-block;
+    color: black;
+    width: 35px;
+    float: left;
+}
