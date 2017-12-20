@@ -1,2 +1,12 @@
 
 
+.align-right {
+    text-align:right
+}
+
+@media screen and (max-width: 992px) {
+    .align-center-sm {
+        text-align:center
+    }
+}
+

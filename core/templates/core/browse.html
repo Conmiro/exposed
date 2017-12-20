@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+    <title>Browse</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+
+        <div class="col">
+
+        </div>
+        <div class="col">
+            <br>
+            {% for profile in profiles %}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                {{ profile.first_name }} {{ profile.last_name }}
+                            </div>
+                            <div class="col">
+                                <form action="/core/profile/{{ profile.pk }}" method="post">
+                                    {% csrf_token %}
+
+                                    <input type="hidden" name="profile_id" value="{{ profile.pk }}">
+                                    <button type="submit" class="btn btn-primary">View Profile</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <br>
+            {% endfor %}
+
+        </div>
+        <div class="col">
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

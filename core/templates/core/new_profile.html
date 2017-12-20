@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <title>New Profile</title>
+{% endblock %}
+
+{% block content %}
+
+<form id = "new-profile" action = "#" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="inputFirstName">First name</label>
+    <input name="first_name" type="text" class="form-control" id="inputFirstName" placeholder="Enter first name">
+  </div>
+    <div class="form-group">
+    <label for="inputLastName">Last name</label>
+    <input name="last_name" type="text" class="form-control" id="inputLastName" placeholder="Enter last name">
+  </div>
+    <div class="form-group">
+    <label for="selectLocation">Location</label>
+    <select name="location" class="form-control" id="selectLocation">
+        {% for location in locations %}
+      <option value="{{location.pk}}">{{  location.city }}</option>
+        {%  endfor %}
+    </select>
+  </div>
+    <div class="form-group">
+    <label for="exampleInputFile">Image upload</label>
+    <input name = "image" type="file" class="form-control-file" id="inputImage" >
+    <small id="fileHelp" class="form-text text-muted">Please upload a face picture for the profile you are requesting.</small>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+{% endblock %}
