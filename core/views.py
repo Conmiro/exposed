@@ -1,7 +1,10 @@
+import datetime
+
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 
 # Create your views here.
-from core.models import Profile, Location, UploadedImage
+from core.models import Profile, Location, UploadedImage, Review, Tag, UserTag
 
 
 def home(request):
@@ -32,7 +35,7 @@ def new_profile(request):
         image = UploadedImage(image=file)
         image.save()
         new_prof.images.add(image)
-        return profile(request, new_prof.pk)
+        return profile_view(request, new_prof.pk)
 
     locations = Location.objects.all()
     context = {'locations': locations}
@@ -40,13 +43,44 @@ def new_profile(request):
     return render(request, 'core/new_profile.html', context)
 
 
-def profile(request, profile_id):
+def profile_view(request, profile_id):
+
+    profile = Profile.objects.get(pk=profile_id)
+
+    if request.POST:
+        comment = request.POST.get('comment')
+        pro_tag = request.POST.get('pro-tag')
+        con_tag = request.POST.get('con-tag')
+        if comment:
+            title = request.POST.get('comment-title')
+            now = datetime.datetime.now()
+            review = Review(title=title, comment=comment, date=now)
+            review.save()
+            profile.reviews.add(review)
+        if pro_tag:
+            try:
+                tag = Tag.objects.get(title=pro_tag, isPro=1)
+            except ObjectDoesNotExist:
+                tag = Tag(title=pro_tag, isPro=1)
+                tag.save()
+
+            user_tag = UserTag(tag=tag)
+            user_tag.save()
+            profile.pro_tags.add(user_tag)
+        if con_tag:
+            try:
+                tag = Tag.objects.get(title=pro_tag, isPro=0)
+            except ObjectDoesNotExist:
+                tag = Tag(title=con_tag, isPro=0)
+                tag.save()
+
+            user_tag = UserTag(tag=tag)
+            user_tag.save()
+            profile.con_tags.add(user_tag)
 
     # profile_id = request.POST.get('profile_id')
-    prof = Profile.objects.get(pk=profile_id)
 
-    context = {'profile': prof}
-
+    context = {'profile': profile}
 
     return render(request, 'core/profile.html', context)
 

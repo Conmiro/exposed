@@ -8,17 +8,19 @@ class Location(models.Model):
 
 class Tag(models.Model):
     title = models.CharField(max_length=32)
+    isPro = models.BooleanField(default=1)
 
 
 class UserTag(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    count = models.IntegerField()
+    count = models.IntegerField(default=1)
 
 
 class Review(models.Model):
     title = models.CharField(max_length=128)
     comment = models.TextField()
     date = models.DateTimeField()
+    vote_count = models.IntegerField(default=0)
 
 
 class UploadedImage(models.Model):
@@ -31,6 +33,7 @@ class Profile(models.Model):
     location = models.ForeignKey(Location, on_delete=models.CASCADE)
     images = models.ManyToManyField(UploadedImage)
     reviews = models.ManyToManyField(Review)
-    tags = models.ManyToManyField(UserTag)
+    pro_tags = models.ManyToManyField(UserTag, related_name="pros")
+    con_tags = models.ManyToManyField(UserTag, related_name="cons")
 
 
