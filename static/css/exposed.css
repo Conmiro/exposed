@@ -4,7 +4,7 @@
     text-align:right
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 1024px) {
     .align-center-sm {
         text-align:center
     }
@@ -44,3 +44,19 @@
 .table-curved tr:last-child td:last-child {
     border-radius: 0 0 6px 0;
 }
+
+.star-rating {
+    visibility:hidden;
+    transform: scale(2);
+    width:2em;
+}
+
+.star-rating::before {
+    visibility:visible;
+
+}
+
+
+
+
+

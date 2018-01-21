@@ -27,6 +27,10 @@ class UploadedImage(models.Model):
     image = models.ImageField(upload_to="images")
 
 
+class StarRating(models.Model):
+    value = models.IntegerField(default=3)
+
+
 class Profile(models.Model):
     first_name = models.CharField(max_length=64)
     last_name = models.CharField(max_length=64)
@@ -35,5 +39,7 @@ class Profile(models.Model):
     reviews = models.ManyToManyField(Review)
     pro_tags = models.ManyToManyField(UserTag, related_name="pros")
     con_tags = models.ManyToManyField(UserTag, related_name="cons")
+    star_ratings = models.ManyToManyField(StarRating)
+
 
 
