@@ -29,6 +29,7 @@ class UploadedImage(models.Model):
 
 class StarRating(models.Model):
     value = models.IntegerField(default=3)
+    date = models.DateTimeField()
 
 
 class Profile(models.Model):

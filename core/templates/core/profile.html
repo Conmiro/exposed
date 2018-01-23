@@ -95,7 +95,9 @@
             <h5>What people say about {{ profile.first_name }}</h5>
             <br>
             <div class="text-center star-ratings">
-
+            {% if rating == 0 %}
+                No one has rated {{ profile.first_name }} yet. Be the first?
+            {% endif %}
             <form action = "#" method = "post">
                 {% csrf_token %}
                 {% for x in 'xxxxx' %}
@@ -223,7 +225,20 @@
             {% endif %}
 
         </div>
-        <div class = "col-sm-2"></div>
+        <div class = "col-sm-2">
+            <div class = "card">
+                <h4>History</h4>
+
+                {% for entry in history %}
+                    <div class="border border-secondary">
+                     <small><strong>{{ entry.comment }}</strong></small>
+                        <br>
+                    <small>{{ entry.date|date:'m/d/Y f:sa' }}</small>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
     </div>
 
 
