@@ -1,0 +1,17 @@
+<div class="text-center star-ratings">
+    {% if rating == 0 %}
+        No one has rated {{ profile.first_name }} yet. Be the first?
+    {% endif %}
+    <form action = "#" method = "post">
+        {% csrf_token %}
+        {% for x in 'xxxxx' %}
+            {% if forloop.counter == rating %}
+                <input class="star-rating fas fa-star " type = "radio" name="stars" value="{{ forloop.counter }}" checked>
+            {% elif forloop.counter < rating %}
+                <input class="star-rating fas fa-star " type = "radio" name="stars" value = "{{ forloop.counter }}">
+            {% else %}
+                <input class="star-rating far fa-star " type = "radio" name="stars" value = "{{ forloop.counter }}">
+            {% endif %}
+        {% endfor %}
+    </form>
+</div>

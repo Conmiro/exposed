@@ -1,0 +1,70 @@
+ <div class = "row">
+                <div class = "col">
+                    <p class="float-left">Comments</p>
+                </div>
+                <div class = "col">
+                    <button id = "add-comment-button" type="button" data-toggle="collapse" data-target="#comment-box" class="btn btn-primary float-right">Add Comment</button>
+                </div>
+                <div class = "col">
+
+                </div>
+            </div>
+            <div class = "row">
+                <div class="col">
+                    <div class = "collapse" id = "comment-box">
+                        <form id = "leave-comment-form" action = "#" method = "post">
+                            {% csrf_token %}
+                            <div class = "form-group">
+                                <input class = "form-control" type = "text" name = "comment-title" placeholder="Give your comment a title...">
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" name="comment" id="comment-text-area" rows="6" placeholder="Now let it loose!"></textarea>
+                            </div>
+                            <div class = "form-group float-right">
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            {% if profile.reviews.all %}
+                {% for review in profile.reviews.all|dictsortreversed:"date" %}
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class = "col-md-8 ">
+                                    <h3>{{ review.title }}</h3>
+                                </div>
+                                <div class = "col-md-4 text-sm-right">
+                                    <small>{{ review.date|date:'m/d/Y' }}</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class = "col-xs-2 text-center ">
+                                    <i class="fas fa-sort-up fa-2x"></i><br>0<br><i class="fas fa-sort-down  fa-2x" ></i>
+
+
+                                </div>
+
+                                <div class = "col text-left">
+                                    <p>
+                                        {{ review.comment }}
+                                    </p>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                {%  endfor %}
+            {% else %}
+                <div class = "text-center">
+                    No comments have been left for this person yet...
+                    <br>
+                </div>
+
+            {% endif %}
