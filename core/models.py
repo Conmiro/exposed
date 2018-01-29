@@ -24,7 +24,7 @@ class Review(models.Model):
 
 
 class UploadedImage(models.Model):
-    image = models.ImageField(upload_to="images")
+    file = models.ImageField(upload_to="images")
 
 
 class StarRating(models.Model):

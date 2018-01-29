@@ -1,37 +1,74 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block head %}
     <title>New Profile</title>
+    <link href="{% static 'css/cropper.css' %}" rel="stylesheet">
+
 {% endblock %}
 
 {% block content %}
 
-<form id = "new-profile" action = "#" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  <div class="form-group">
-    <label for="inputFirstName">First name</label>
-    <input name="first_name" type="text" class="form-control" id="inputFirstName" placeholder="Enter first name">
-  </div>
-    <div class="form-group">
-    <label for="inputLastName">Last name</label>
-    <input name="last_name" type="text" class="form-control" id="inputLastName" placeholder="Enter last name">
-  </div>
-    <div class="form-group">
-    <label for="selectLocation">Location</label>
-    <select name="location" class="form-control" id="selectLocation">
-        {% for location in locations %}
-      <option value="{{location.pk}}">{{  location.city }}</option>
-        {%  endfor %}
-    </select>
-  </div>
-    <div class="form-group">
-    <label for="exampleInputFile">Image upload</label>
-    <input name = "image" type="file" class="form-control-file" id="inputImage" >
-    <small id="fileHelp" class="form-text text-muted">Please upload a face picture for the profile you are requesting.</small>
-  </div>
+    <form id = "new-profile" action = "#" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="inputFirstName">First name</label>
+            <input name="first_name" type="text" class="form-control" id="inputFirstName" placeholder="Enter first name">
+        </div>
+        <div class="form-group">
+            <label for="inputLastName">Last name</label>
+            <input name="last_name" type="text" class="form-control" id="inputLastName" placeholder="Enter last name">
+        </div>
+        <div class="form-group">
+            <label for="selectLocation">Location</label>
+            <select name="location" class="form-control" id="selectLocation">
+                {% for location in locations %}
+                    <option value="{{location.pk}}">{{  location.city }}</option>
+                {%  endfor %}
+            </select>
+        </div>
+        <div class="form-group">
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+            {% for field in photo_form %}
+                {% if field.is_hidden %}
+                    {{ field }}
+                {% else %}
+                    <label for ="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    <small class = "form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+            {% endfor %}
+
+        </div>
 
 
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <!-- MODAL TO CROP THE IMAGE -->
+    <div class="modal fade" id="modalCrop">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Crop the photo</h4>
+                </div>
+                <div class="modal-body">
+                    <img src="" id="image" style="max-width: 100%;">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>
+                    <button type="button" class="btn btn-primary js-crop-and-upload">Crop</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src={% static 'js/image_crop.js' %}></script>
+    <script src="{% static 'js/cropper.js' %}"></script>
 {% endblock %}
