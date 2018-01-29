@@ -11,24 +11,17 @@
 
     <form id = "new-profile" action = "#" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="form-group">
-            <label for="inputFirstName">First name</label>
-            <input name="first_name" type="text" class="form-control" id="inputFirstName" placeholder="Enter first name">
-        </div>
-        <div class="form-group">
-            <label for="inputLastName">Last name</label>
-            <input name="last_name" type="text" class="form-control" id="inputLastName" placeholder="Enter last name">
-        </div>
-        <div class="form-group">
-            <label for="selectLocation">Location</label>
-            <select name="location" class="form-control" id="selectLocation">
-                {% for location in locations %}
-                    <option value="{{location.pk}}">{{  location.city }}</option>
-                {%  endfor %}
-            </select>
-        </div>
-        <div class="form-group">
 
+        <!-- profile info form fields -->
+        {% for field in new_profile_form %}
+        <div class = "form-group">
+            <label for ="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+
+        <!-- image upload form fields-->
+        <div class="form-group">
             {% for field in photo_form %}
                 {% if field.is_hidden %}
                     {{ field }}
@@ -38,9 +31,7 @@
                     <small class = "form-text text-muted">{{ field.help_text }}</small>
                 {% endif %}
             {% endfor %}
-
         </div>
-
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

@@ -5,6 +5,9 @@ class Location(models.Model):
     city = models.CharField(max_length=32)
     state = models.CharField(max_length=32)
 
+    def __str__(self):
+        return self.city+', '+self.state
+
 
 class Tag(models.Model):
     title = models.CharField(max_length=32)

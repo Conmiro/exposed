@@ -1,7 +1,28 @@
 from PIL import Image
 from django import forms
 
-from core.models import UploadedImage
+from core.models import UploadedImage, Profile, Location
+
+
+class NewProfileForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+        self.fields['location'].empty_label = None  # this removes the default '--------' as first option
+
+    class Meta:
+        model = Profile
+        fields = ('first_name', 'last_name', 'location')
+        widgets = {
+            'first_name': forms.TextInput(attrs={'placeholder': 'Enter first name'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Enter last name'})
+        }
+
+    def save(self, **kwargs):
+        profile = super(NewProfileForm, self).save()
+        return profile
 
 
 class PhotoForm(forms.ModelForm):

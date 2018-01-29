@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from core.forms import PhotoForm
+from core.forms import PhotoForm, NewProfileForm
 from core.models import Profile, Location, UploadedImage, Review, Tag, UserTag, StarRating
 
 
@@ -41,28 +41,19 @@ def handle_image_upload(request):
 
 def new_profile(request):
     if request.POST:
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        location = Location.objects.get(pk=request.POST.get('location'))
-
+        new_profile_form = NewProfileForm(request.POST)
         photo_form = PhotoForm(request.POST, request.FILES)
-        if photo_form.is_valid():
+        if photo_form.is_valid() and new_profile_form.is_valid():
+            new_prof = new_profile_form.save()
             image = photo_form.save()
-
-            new_prof = Profile(
-                first_name=first_name,
-                last_name=last_name,
-                location=location
-            )
-            new_prof.save()
             new_prof.images.add(image)
-
             return redirect('profile', profile_id=new_prof.pk)
 
     locations = Location.objects.all()
+    new_profile_form = NewProfileForm()
     photo_form = PhotoForm()
 
-    context = {'locations': locations, 'photo_form': photo_form}
+    context = {'locations': locations, 'photo_form': photo_form, 'new_profile_form': new_profile_form}
 
     return render(request, 'core/new_profile.html', context)
 
