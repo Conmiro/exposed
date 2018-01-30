@@ -67,7 +67,7 @@ def profile_view(request, profile_id):
         comment = request.POST.get('comment')
         pro_tag = request.POST.get('pro-tag')
         con_tag = request.POST.get('con-tag')
-        file = request.FILES.get('image')
+        file = request.FILES.get('file')
         star_rating = request.POST.get('stars')
         if comment:
             title = request.POST.get('comment-title')
@@ -95,9 +95,10 @@ def profile_view(request, profile_id):
             user_tag.save()
             profile.con_tags.add(user_tag)
         elif file:
-            image = UploadedImage(image=file)
-            image.save()
-            profile.images.add(image)
+            photo_form = PhotoForm(request.POST, request.FILES)
+            if photo_form.is_valid():
+                image = photo_form.save()
+                profile.images.add(image)
         elif star_rating:
             rating = StarRating(value=star_rating, date=now)
             rating.save()
@@ -110,15 +111,13 @@ def profile_view(request, profile_id):
     for rating in profile.star_ratings.all():
         count += 1
         total += rating.value
-        print(total)
-        print(count)
 
     overall_rating = round(total / count, 0) if count else 0
-    print(overall_rating)
 
     history = getHistory(profile)
+    photo_form = PhotoForm()
 
-    context = {'profile': profile, 'rating': overall_rating, 'history': history}
+    context = {'profile': profile, 'rating': overall_rating, 'history': history, 'photo_form': photo_form}
 
     return render(request, 'core/profile.html', context)
 

@@ -3,6 +3,8 @@
 
 {% block head %}
     <title>Profile</title>
+    <link href="{% static 'css/cropper.css' %}" rel="stylesheet">
+
 {% endblock %}
 
 {% block content %}
@@ -73,8 +75,10 @@
             </div>
         </div>
     </div>
-    
+
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript" src={% static 'js/profile.js' %}></script>
+    <script type="text/javascript" src={% static 'js/image_crop.js' %}></script>
+    <script src="{% static 'js/cropper.js' %}"></script>
 {% endblock %}
